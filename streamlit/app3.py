@@ -103,3 +103,4 @@ if st.button("🚀 Predict Search Volume"):
 # -------------------------------
 st.divider()
 st.caption("Random Forest Model | Google Trends US Data")
+
