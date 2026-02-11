@@ -15,13 +15,36 @@ st.set_page_config(
 # -------------------------------
 # Load Model & Encoder
 # -------------------------------
+import os
+import streamlit as st
+import joblib
+
 @st.cache_resource
 def load_artifacts():
-    model = joblib.load("a.pkl")
-    encoder = joblib.load("b.pkl")
+    model_path = "a.pkl"
+    encoder_path = "category_encoder.pkl"
+
+    if not os.path.exists(model_path) or not os.path.exists(encoder_path):
+        return None, None
+
+    model = joblib.load(model_path)
+    encoder = joblib.load(encoder_path)
     return model, encoder
 
+
 model, category_encoder = load_artifacts()
+
+if model is None or category_encoder is None:
+    st.warning(
+        "⚠️ Trained model files are not included in this deployment.\n\n"
+        "This app is running in **demo mode**.\n\n"
+        "To enable predictions:\n"
+        "1. Train the model locally\n"
+        "2. Save the `.pkl` files\n"
+        "3. Run the app locally"
+    )
+    st.stop()
+
 
 # -------------------------------
 # App Header
